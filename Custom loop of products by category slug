@@ -1,0 +1,13 @@
+<?php
+    $args = array( 'post_type' => 'product','product_cat' => 'selection-of-cakes');
+    $loop = new WP_Query( $args );
+    while ( $loop->have_posts() ) : $loop->the_post(); 
+    $product = wc_get_product( get_the_ID());
+?>
+    <div class="block">
+        <div class="inr">
+            <h3><?php the_title(); ?></h3>
+            <span class="price"><?php echo $product->get_price_html();?></span>
+        </div>
+    </div>
+<?php endwhile; wp_reset_query(); // Remember to reset ?>
