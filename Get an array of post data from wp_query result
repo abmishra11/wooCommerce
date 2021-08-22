@@ -1,0 +1,31 @@
+<?php
+    $args = array(
+        'post_type'   =>  'product',
+        'orderby'     =>  'date',
+        'order'       =>  'DESC',
+        'posts_per_page' => 5,
+        'tax_query' => array(
+             array(
+                 'taxonomy' => 'product_visibility',
+                 'field'    => 'name',
+                 'terms'    => 'featured',
+                 'operator' => 'IN'
+             ),
+        )
+    );
+    $query = new WP_Query( $args );
+    $posts = $query->posts;
+?>
+<?php 
+    $product = wc_get_product( $posts[0]->ID);
+    $image = wp_get_attachment_image_src( get_post_thumbnail_id( $posts[0]->ID ), 'single-post-thumbnail' );
+?>
+<a href="#" class="single">
+    <div class="image">
+        <img src="<?php echo $image[0];?>">
+    </div>
+    <div class="text">
+        <h3><?php echo $product->get_name();?></h3>
+        <span class="price"><?php echo $product->get_price_html();?></span>
+    </div>
+</a>
