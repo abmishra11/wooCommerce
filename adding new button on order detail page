@@ -1,0 +1,22 @@
+function tl_review_for_order( $order ) {
+    // Get the order items.
+    $order_items = $order->get_items();
+
+    // Get the first or only order item.
+    $order_item = reset( $order_items );
+
+    // Get the product object from the order item.
+    $product = $order_item->get_product();
+
+    // Make sure the product still exists.
+    if ( $product ) {
+        // Output link using WooCommerce function for getting a product's link.
+        printf(
+            '<a class="button-3" href="%1$s#tab-reviews">%2$s</a>',
+            esc_url( $product->get_permalink() ),
+            __( 'Review', 'woocommerce' )
+        ); 
+    }
+}
+
+add_action( 'woocommerce_order_details_after_order_table', 'tl_review_for_order' );
