@@ -1,0 +1,21 @@
+function cs_add_order_again_to_my_orders_actions( $actions, $order ) {
+  // Get the order items.
+  $order_items = $order->get_items();
+
+  // Get the first or only order item.
+  $order_item = reset( $order_items );
+
+  // Get the product object from the order item.
+  $product = $order_item->get_product();
+
+	if ( $order->has_status( 'completed' ) ) {
+		$actions['review'] = array(
+			'url'  => $product->get_permalink()."#reviews",
+			'name' => __( 'Review', 'woocommerce' )
+		);
+	}
+
+	return $actions;
+}
+
+add_filter( 'woocommerce_my_account_my_orders_actions', 'cs_add_order_again_to_my_orders_actions', 50, 2 );
